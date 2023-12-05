@@ -2,25 +2,25 @@
 
 [Course Page](https://fullstackopen.com/en/part0/)
 
-- [x] #### 0.1: HTML
+- [x] 0.1: HTML
 
 Review the basics of HTML by reading this tutorial from Mozilla: [HTML tutorial](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics).
 
 *This exercise is not submitted to GitHub, it's enough to just read the tutorial*
 
-- [x] #### 0.2: CSS
+- [x] 0.2: CSS
 
 Review the basics of CSS by reading this tutorial from Mozilla: [CSS tutorial](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics).
 
 *This exercise is not submitted to GitHub, it's enough to just read the tutorial*
 
-- [x] #### 0.3: HTML forms
+- [x] 0.3: HTML forms
 
 Learn about the basics of HTML forms by reading Mozilla's tutorial [Your first form](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form).
 
 *This exercise is not submitted to GitHub, it's enough to just read the tutorial*
 
-- [x] #### 0.4: New note diagram
+- [x] 0.4: New note diagram
 
 In the section [Loading a page containing JavaScript - review](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#loading-a-page-containing-java-script-review), the chain of events caused by opening the page https://studies.cs.helsinki.fi/exampleapp/notes is depicted as a [sequence diagram](https://www.geeksforgeeks.org/unified-modeling-language-uml-sequence-diagrams/)
 
@@ -66,11 +66,11 @@ All necessary information for doing this, and the next two exercises, can be fou
 
 You can do the diagrams with any program, but perhaps the easiest and the best way to do diagrams is the [Mermaid](https://github.com/mermaid-js/mermaid#sequence-diagram-docs---live-editor) syntax that is now implemented in [GitHub](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) Markdown pages!
 
-- [ ] #### 0.5: Single page app diagram
+- [x] 0.5: Single page app diagram
 
 Create a diagram depicting the situation where the user goes to the [single-page app](https://fullstackopen.com/en/part0/fundamentals_of_web_apps#single-page-app) version of the notes app at https://studies.cs.helsinki.fi/exampleapp/spa.
 
-- [ ] #### 0.6: New note in Single page app diagram
+- [x] 0.6: New note in Single page app diagram
 
 Create a diagram depicting the situation where the user creates a new note using the single-page version of the app.
 
