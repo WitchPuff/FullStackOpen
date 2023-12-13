@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CountryService from './service/country'
+import WeatherService from './service/weather'
 
 
 
@@ -11,9 +12,30 @@ const Name = ({ name, setInfo, setInfoView }) => {
     )
 }
 
+const Weather = ({temp, wind, icon}) => {
+  return (
+    <div>
+      <p>temperature {temp-273.15} Celcius</p>
+      <img src={icon}></img>
+      <p>wind {wind} m/s</p>
+    </div>
+  )
+}
 
-const Info = ({ name, capital, area, lans, flag }) => {
-  console.log(Object.values(lans));
+
+
+const Info = ({ name, capital, area, lans, flag, lat, lon }) => {
+  const [weather, setWeather] = useState(null)
+  useEffect(() => {
+    const getWeatherInfo = (lat, lon, setWeather) => {
+      WeatherService
+        .getWeather(lat, lon)
+        .then((weather) => {
+          setWeather(weather)
+        })
+    }
+    getWeatherInfo(lat, lon, setWeather)
+  }, [lat, lon])
   return (
     <div>
       <h1>{name}</h1>
@@ -24,17 +46,26 @@ const Info = ({ name, capital, area, lans, flag }) => {
         {Object.values(lans).map((lan) => <li key={lan}>{lan}</li>)}
       </ul>
       <img src={flag}></img>
+      <h2>Weather in {name}</h2>
+      {weather ? (
+        <Weather
+          temp={weather.main.temp}
+          wind={weather.wind.speed}
+          icon={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+        />
+      ) : (
+        <p>Loading weather information...</p>
+      )}
     </div>
   )
 }
 
 
 const showInfo = (name, setInfo, setInfoView) => {
-  console.log(name);
   setInfoView(true)
   CountryService
-  .getInfo(name)
-  .then((info) => setInfo(info))
+    .getInfo(name)
+    .then((info) => setInfo(info))
 }
 
 const search = (query, setInfo, setInfoView, setNames) => {
@@ -43,20 +74,21 @@ const search = (query, setInfo, setInfoView, setNames) => {
     CountryService
       .getAll()
       .then((names) => {
-        console.log(names)
         names = names.map((country) => country['name'])
-        console.log(names)
         names = names.filter((name) => name['official'].toLowerCase().includes(query.toLowerCase()) || name['common'].includes(query.toLowerCase()))
         names = names.map((name) => name['common'])
-        console.log(names)
         setNames(names)
-        if (names.length > 1){
+        if (names.length === 1) {
+          showInfo(names[0], setInfo, setInfoView)
+        } else {
           setInfo(null)
           setInfoView(false)
-        } else if (names.length === 1) {
-          showInfo(names[0], setInfo, setInfoView)
         }
       })
+  } else {
+      setInfo(null)
+      setInfoView(false)
+      setNames([])
   }
 }
 
@@ -73,6 +105,9 @@ function App() {
   const changeQuery = (event) => {
     const inputValue = event.target.value;
     setQuery(inputValue);
+    setNames([])
+    setInfo(null)
+    setInfoView(false)
     search(inputValue, setInfo, setInfoView, setNames);
   }
   
@@ -88,15 +123,19 @@ function App() {
           capital={info['capital']} 
           area={info['area']} 
           lans={info['languages']} 
-          flag={info['flags']['png']}>
+          flag={info['flags']['png']}
+          lat={info['latlng'][0]}
+          lon={info['latlng'][1]}>
         </Info>
       ) : (
-        names.length > 10 ? (
-          <p>Too many matches, specify another filter</p>
-        ) : (
-          names.map((name) => <Name name={name} key={name} setInfo={setInfo} setInfoView={setInfoView}></Name>)
-        )
+        names.length <= 1 ? (<></>) : (
+          names.length > 10 ? (
+            <p>Too many matches, specify another filter</p>
+          ) : (
+            names.map((name) => <Name name={name} key={name} setInfo={setInfo} setInfoView={setInfoView}></Name>)
+          )
       ) 
+      )
       }
     </>
   )
